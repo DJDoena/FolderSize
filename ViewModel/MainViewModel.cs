@@ -19,7 +19,7 @@ namespace DoenaSoft.FolderSize.ViewModel
 
         private readonly IUIServices _uiServices;
 
-        private CancellationTokenSource _calcCancellationTokenSource;
+        private CancellationTokenSource _cancellationTokenSource;
 
         private readonly RootPathItem _nothingComboBoxItem;
 
@@ -27,35 +27,35 @@ namespace DoenaSoft.FolderSize.ViewModel
 
         public static string Title => $"Folder Size {Assembly.GetEntryAssembly().GetName().Version}";
 
-        public IEnumerable<RootPathItem> RootPathComboBoxItems { get; }
+        public IEnumerable<RootPathItem> RootPathItems { get; }
 
-        private RootPathItem _selectedRootPathComboBoxItem;
-        public RootPathItem SelectedRootPathComboBoxItem
+        private RootPathItem _selectedRootPathItem;
+        public RootPathItem SelectedRootPathItem
         {
             get
             {
-                Debug.WriteLine($"getting {_selectedRootPathComboBoxItem?.DisplayName ?? "null"}");
+                Debug.WriteLine($"getting {_selectedRootPathItem?.DisplayName ?? "null"}");
 
-                return _selectedRootPathComboBoxItem;
+                return _selectedRootPathItem;
             }
             set
             {
                 Debug.WriteLine($"setting {value?.DisplayName ?? "null"}");
 
-                if (_selectedRootPathComboBoxItem != value)
+                if (_selectedRootPathItem != value)
                 {
-                    Debug.WriteLine($"overwriting {_selectedRootPathComboBoxItem?.DisplayName ?? "null"}");
+                    Debug.WriteLine($"overwriting {_selectedRootPathItem?.DisplayName ?? "null"}");
 
-                    _selectedRootPathComboBoxItem = value;
+                    _selectedRootPathItem = value;
 
                     this.OnPropertyChanged();
                 }
             }
         }
 
-        private readonly ICommand _rootPathComboBoxItemSelectionChangedCommand;
-        public ICommand RootPathComboBoxItemSelectionChangedCommand
-            => _rootPathComboBoxItemSelectionChangedCommand;
+        private readonly ICommand _rootPathItemSelectionChangedCommand;
+        public ICommand RootPathItemSelectionChangedCommand
+            => _rootPathItemSelectionChangedCommand;
 
         public ObservableCollection<NodeViewModel> RootNodes { get; }
 
@@ -86,44 +86,44 @@ namespace DoenaSoft.FolderSize.ViewModel
                 rootPathComboBoxItems.Add(new($"{drive.DriveLetter} [ {drive.VolumeLabel} ]", RootPathItemType.Drive, drive));
             }
 
-            this.RootPathComboBoxItems = rootPathComboBoxItems.ToImmutableList();
+            this.RootPathItems = rootPathComboBoxItems.ToImmutableList();
 
-            _selectedRootPathComboBoxItem = _nothingComboBoxItem;
+            _selectedRootPathItem = _nothingComboBoxItem;
 
             this.RootNodes = new();
 
-            _rootPathComboBoxItemSelectionChangedCommand = new ParameterizedRelayCommand(this.CreateNodes);
+            _rootPathItemSelectionChangedCommand = new ParameterizedRelayCommand(this.CreateNodes);
         }
 
         private void CreateNodes(object param)
         {
-            if (this.SelectedRootPathComboBoxItem == null
-                || this.SelectedRootPathComboBoxItem == _nothingComboBoxItem)
+            if (this.SelectedRootPathItem == null
+                || this.SelectedRootPathItem == _nothingComboBoxItem)
             {
                 return;
             }
 
-            _calcCancellationTokenSource?.Cancel();
+            _cancellationTokenSource?.Cancel();
 
-            _calcCancellationTokenSource?.Dispose();
+            _cancellationTokenSource?.Dispose();
 
-            _calcCancellationTokenSource = null;
+            _cancellationTokenSource = null;
 
             this.RootNodes.Clear();
 
-            switch (this.SelectedRootPathComboBoxItem.Type)
+            switch (this.SelectedRootPathItem.Type)
             {
                 case RootPathItemType.SelectFolder:
                     {
                         this.CreateRootFolderFromSelectedFolder();
 
-                        this.SelectedRootPathComboBoxItem = _nothingComboBoxItem;
+                        this.SelectedRootPathItem = _nothingComboBoxItem;
 
                         return;
                     }
                 case RootPathItemType.Drive:
                     {
-                        this.CreateRootFolderFromSelectedDrive(this.SelectedRootPathComboBoxItem.Drive);
+                        this.CreateRootFolderFromSelectedDrive(this.SelectedRootPathItem.Drive);
 
                         return;
                     }
@@ -148,17 +148,16 @@ namespace DoenaSoft.FolderSize.ViewModel
         }
 
         private void CreateRootFolderFromSelectedDrive(IDriveInfo drive)
-        {
-            this.SetRootFolder(drive.RootFolderName);
-        }
+            => this.SetRootFolder(drive.RootFolderName);
 
         private void SetRootFolder(string rootFolder)
         {
-            var modelNode = IoC.Resolve<IFolderSizeModelBuilder>().BuildFolderNode(_ioServices.GetFolderInfo(rootFolder));
+            var modelNode = IoC.Resolve<IFolderSizeModelBuilder>()
+                .BuildFolderNode(_ioServices.GetFolderInfo(rootFolder));
 
-            _calcCancellationTokenSource = new();
+            _cancellationTokenSource = new();
 
-            var viewModelNode = new NodeViewModel(modelNode, null, _calcCancellationTokenSource.Token);
+            var viewModelNode = new NodeViewModel(modelNode, null, _cancellationTokenSource.Token);
 
             this.RootNodes.Add(viewModelNode);
         }

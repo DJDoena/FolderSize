@@ -11,7 +11,7 @@ public sealed class NodeViewModel : INotifyPropertyChanged
 
     private readonly IFolderNode _parentNode;
 
-    private readonly CancellationToken _calcCancellationToken;
+    private readonly CancellationToken _cancellationToken;
 
     private readonly bool _sizeCalculationStarted;
 
@@ -23,7 +23,7 @@ public sealed class NodeViewModel : INotifyPropertyChanged
         get
         {
             _children ??= _modelNode.Children
-                .Select(modelChild => new NodeViewModel(modelChild, _modelNode, _calcCancellationToken))
+                .Select(modelChild => new NodeViewModel(modelChild, _modelNode, _cancellationToken))
                 .ToImmutableList();
 
             return _children;
@@ -72,7 +72,7 @@ public sealed class NodeViewModel : INotifyPropertyChanged
 
     public NodeViewModel(IFolderNode modelNode
         , IFolderNode parentNode
-        , CancellationToken calcCancellationToken)
+        , CancellationToken cancellationToken)
     {
         _modelNode = modelNode;
 
@@ -88,7 +88,7 @@ public sealed class NodeViewModel : INotifyPropertyChanged
 
         _percentage = 0d;
 
-        _calcCancellationToken = calcCancellationToken;
+        _cancellationToken = cancellationToken;
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
@@ -101,12 +101,12 @@ public sealed class NodeViewModel : INotifyPropertyChanged
             {
                 try
                 {
-                    this.CalculateSize(_calcCancellationToken);
+                    this.CalculateSize(_cancellationToken);
                 }
                 catch (OperationCanceledException)
                 {
                 }
-            }, _calcCancellationToken);
+            }, _cancellationToken);
 
             return task;
         }

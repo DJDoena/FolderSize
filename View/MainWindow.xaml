@@ -29,13 +29,14 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <ComboBox Grid.Column="0" Grid.Row="0" x:Name="CBRootPathComboBox" VerticalAlignment="Center" Margin="10"
-            ItemsSource="{Binding RootPathComboBoxItems, Mode=OneTime}" 
+        <ComboBox Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Margin="10"
+            x:Name="CBRootPathComboBox"
+            ItemsSource="{Binding RootPathItems, Mode=OneTime}" 
             DisplayMemberPath="DisplayName"
-            SelectedItem="{Binding SelectedRootPathComboBoxItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            SelectedItem="{Binding SelectedRootPathItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
-                    <i:InvokeCommandAction Command="{Binding RootPathComboBoxItemSelectionChangedCommand}" CommandParameter="{Binding ElementName=CBRootPathComboBox, Path=SelectedItem}" />
+                    <i:InvokeCommandAction Command="{Binding RootPathItemSelectionChangedCommand}" CommandParameter="{Binding ElementName=CBRootPathComboBox, Path=SelectedItem}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </ComboBox>
@@ -55,11 +56,16 @@
                 <HierarchicalDataTemplate DataType="{x:Type vm:NodeViewModel}" ItemsSource="{Binding Children, Mode=OneWay}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="350" /> <!-- Folder name -->
-                            <ColumnDefinition Width="5" /> <!-- spacing -->
-                            <ColumnDefinition Width="50" /> <!-- Size text -->
-                            <ColumnDefinition Width="5" /> <!-- spacing -->
-                            <ColumnDefinition Width="200" /> <!-- Percentage bar -->
+                            <ColumnDefinition Width="350" />
+                            <!-- Folder name -->
+                            <ColumnDefinition Width="5" />
+                            <!-- spacing -->
+                            <ColumnDefinition Width="50" />
+                            <!-- Size text -->
+                            <ColumnDefinition Width="5" />
+                            <!-- spacing -->
+                            <ColumnDefinition Width="200" />
+                            <!-- Percentage bar -->
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Grid.Column="0" Text="{Binding DisplayName, Mode=OneWay}"/>
