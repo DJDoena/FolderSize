@@ -30,13 +30,14 @@
         </Grid.RowDefinitions>
 
         <ComboBox Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" Margin="10"
-            x:Name="CBRootPathComboBox"
-            ItemsSource="{Binding RootPathItems, Mode=OneTime}" 
-            DisplayMemberPath="DisplayName"
-            SelectedItem="{Binding SelectedRootPathItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                  x:Name="CBRootPathComboBox"
+                  ItemsSource="{Binding RootPathItems, Mode=OneTime}" 
+                  DisplayMemberPath="DisplayName"
+                  SelectedItem="{Binding SelectedRootPathItem, Mode=TwoWay}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
-                    <i:InvokeCommandAction Command="{Binding RootPathItemSelectionChangedCommand}" CommandParameter="{Binding ElementName=CBRootPathComboBox, Path=SelectedItem}" />
+                    <i:InvokeCommandAction Command="{Binding RootPathItemSelectionChangedCommand}"
+                                           CommandParameter="{Binding ElementName=CBRootPathComboBox, Path=SelectedItem}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </ComboBox>
@@ -44,33 +45,31 @@
         <Button Grid.Column="1" Grid.Row="0" Content="Close" VerticalAlignment="Center" Margin="5">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Click">
-                    <i:CallMethodAction MethodName="Close" TargetObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" />
+                    <i:CallMethodAction MethodName="Close"
+                                        TargetObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </Button>
 
         <TreeView Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
-          ItemsSource="{Binding RootNodes, Mode=OneTime}">
-
+                  ItemsSource="{Binding RootNodes, Mode=OneTime}">
             <TreeView.Resources>
-                <HierarchicalDataTemplate DataType="{x:Type vm:NodeViewModel}" ItemsSource="{Binding Children, Mode=OneWay}">
+                <HierarchicalDataTemplate DataType="{x:Type vm:NodeViewModel}"
+                                          ItemsSource="{Binding Children, Mode=OneWay}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="350" />
-                            <!-- Folder name -->
-                            <ColumnDefinition Width="5" />
-                            <!-- spacing -->
-                            <ColumnDefinition Width="50" />
-                            <!-- Size text -->
-                            <ColumnDefinition Width="5" />
-                            <!-- spacing -->
-                            <ColumnDefinition Width="200" />
-                            <!-- Percentage bar -->
+                            <ColumnDefinition Width="350" /> <!-- Folder name -->
+                            <ColumnDefinition Width="5" /> <!-- spacing -->
+                            <ColumnDefinition Width="50" /> <!-- Size text -->
+                            <ColumnDefinition Width="5" /> <!-- spacing -->
+                            <ColumnDefinition Width="200" /> <!-- Percentage bar -->
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Grid.Column="0" Text="{Binding DisplayName, Mode=OneWay}"/>
+                        <TextBlock Grid.Column="0"
+                                   Text="{Binding DisplayName, Mode=OneWay}"/>
 
-                        <TextBlock Grid.Column="2" Text="{Binding Size, Mode=OneWay}"/>
+                        <TextBlock Grid.Column="2"
+                                   Text="{Binding Size, Mode=OneWay}"/>
 
                         <ProgressBar Grid.Column="4" Minimum="0" Maximum="100" 
                                      Value="{Binding Percentage, Mode=OneWay}" 
@@ -80,5 +79,6 @@
                 </HierarchicalDataTemplate>
             </TreeView.Resources>
         </TreeView>
+        
     </Grid>
 </Window>
