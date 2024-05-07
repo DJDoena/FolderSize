@@ -49,6 +49,8 @@ namespace DoenaSoft.FolderSize.ViewModel
                     _selectedRootPathItem = value;
 
                     this.OnPropertyChanged();
+
+                    _rootPathItemSelectionChangedCommand.Execute(null);
                 }
             }
         }
@@ -92,10 +94,10 @@ namespace DoenaSoft.FolderSize.ViewModel
 
             this.RootNodes = new();
 
-            _rootPathItemSelectionChangedCommand = new ParameterizedRelayCommand(this.CreateNodes);
+            _rootPathItemSelectionChangedCommand = new RelayCommand(this.CreateNodes);
         }
 
-        private void CreateNodes(object param)
+        private void CreateNodes()
         {
             if (this.SelectedRootPathItem == null
                 || this.SelectedRootPathItem == _nothingComboBoxItem)
