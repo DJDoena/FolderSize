@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Input;
 using DoenaSoft.AbstractionLayer.Commands;
 using DoenaSoft.AbstractionLayer.IOServices;
@@ -32,25 +33,16 @@ namespace DoenaSoft.FolderSize.ViewModel
         private RootPathItem _selectedRootPathItem;
         public RootPathItem SelectedRootPathItem
         {
-            get
-            {
-                Debug.WriteLine($"getting {_selectedRootPathItem?.DisplayName ?? "null"}");
-
-                return _selectedRootPathItem;
-            }
+            get => _selectedRootPathItem;
             set
             {
                 Debug.WriteLine($"setting {value?.DisplayName ?? "null"}");
 
                 if (_selectedRootPathItem != value)
                 {
-                    Debug.WriteLine($"overwriting {_selectedRootPathItem?.DisplayName ?? "null"}");
-
                     _selectedRootPathItem = value;
 
                     this.OnPropertyChanged();
-
-                    _rootPathItemSelectionChangedCommand.Execute(null);
                 }
             }
         }
@@ -67,10 +59,6 @@ namespace DoenaSoft.FolderSize.ViewModel
 
         public MainViewModel()
         {
-            _ioServices = IoC.Resolve<IIOServices>();
-
-            _uiServices = IoC.Resolve<IUIServices>();
-
             _nothingComboBoxItem = new("Nothing", RootPathItemType.Nothing);
 
             _selectFolderComboBoxItem = new("Please select folder", RootPathItemType.SelectFolder);
@@ -81,7 +69,14 @@ namespace DoenaSoft.FolderSize.ViewModel
                 _selectFolderComboBoxItem,
             };
 
-            var drives = _ioServices.GetDriveInfos(System.IO.DriveType.Fixed);
+            if (DesignerProperties.GetIsInDesignMode(new DependencyObject()))
+            {
+                return;
+            }
+
+            _ioServices = IoC.Resolve<IIOServices>();
+
+            var drives = _ioServices.GetDriveInfos(DriveType.Fixed);
 
             foreach (var drive in drives)
             {
@@ -95,6 +90,8 @@ namespace DoenaSoft.FolderSize.ViewModel
             this.RootNodes = new();
 
             _rootPathItemSelectionChangedCommand = new RelayCommand(this.CreateNodes);
+
+            _uiServices = IoC.Resolve<IUIServices>();
         }
 
         private void CreateNodes()
