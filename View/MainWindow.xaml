@@ -33,13 +33,13 @@
                   x:Name="CBRootPathComboBox"
                   ItemsSource="{Binding RootPathItems, Mode=OneTime}" 
                   DisplayMemberPath="DisplayName"
-                  SelectedItem="{Binding SelectedRootPathItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <!--<i:Interaction.Triggers>
+                  SelectedItem="{Binding SelectedRootPathItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  IsSynchronizedWithCurrentItem="True">
+            <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
-                    <i:InvokeCommandAction Command="{Binding RootPathItemSelectionChangedCommand}"
-                                           CommandParameter="{Binding ElementName=CBRootPathComboBox, Path=SelectedItem}" />
+                    <i:InvokeCommandAction Command="{Binding RootPathItemSelectionChangedCommand}" />
                 </i:EventTrigger>
-            </i:Interaction.Triggers>-->
+            </i:Interaction.Triggers>
         </ComboBox>
 
         <Button Grid.Column="1" Grid.Row="0" Content="Close" VerticalAlignment="Center" Margin="5">
