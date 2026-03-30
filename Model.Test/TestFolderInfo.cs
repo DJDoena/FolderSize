@@ -28,7 +28,21 @@ internal sealed class TestFolderInfo : IFolderInfo
 
     public DateTime LastAccessTimeUtc { get; set; }
 
+    public IFolderInfo Parent => throw new NotImplementedException();
+
+    public FileAttributes Attributes { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
     public void Create()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Delete()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Delete(bool recursive)
     {
         throw new NotImplementedException();
     }
@@ -56,6 +70,16 @@ internal sealed class TestFolderInfo : IFolderInfo
         throw new NotImplementedException();
     }
 
+    public IEnumerable<IFileInfo> GetFiles()
+    {
+        throw new NotImplementedException();
+    }
+
+    public IEnumerable<IFileInfo> GetFiles(string searchPattern)
+    {
+        throw new NotImplementedException();
+    }
+
     public IEnumerable<IFolderInfo> GetFolderInfos(string searchPattern
         , SearchOption searchOption = SearchOption.TopDirectoryOnly)
     {
@@ -64,5 +88,25 @@ internal sealed class TestFolderInfo : IFolderInfo
             new TestFolderInfo(),
             new TestFolderInfo(),
         };
+    }
+
+    public IEnumerable<IFolderInfo> GetFolders(string searchPattern, SearchOption searchOption = SearchOption.TopDirectoryOnly)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IEnumerable<IFolderInfo> GetFolders()
+    {
+        throw new NotImplementedException();
+    }
+
+    public IEnumerable<IFolderInfo> GetFolders(string searchPattern)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void MoveTo(string destFolderName)
+    {
+        throw new NotImplementedException();
     }
 }

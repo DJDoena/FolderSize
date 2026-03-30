@@ -76,7 +76,7 @@ namespace DoenaSoft.FolderSize.ViewModel
 
             _ioServices = IoC.Resolve<IIOServices>();
 
-            var drives = _ioServices.GetDriveInfos(DriveType.Fixed);
+            var drives = _ioServices.GetDrives(DriveType.Fixed);
 
             foreach (var drive in drives)
             {
@@ -152,7 +152,7 @@ namespace DoenaSoft.FolderSize.ViewModel
         private void SetRootFolder(string rootFolder)
         {
             var modelNode = IoC.Resolve<IFolderSizeModelBuilder>()
-                .BuildFolderNode(_ioServices.GetFolderInfo(rootFolder));
+                .BuildFolderNode(_ioServices.GetFolder(rootFolder));
 
             _cancellationTokenSource = new();
 

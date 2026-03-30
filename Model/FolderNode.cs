@@ -147,7 +147,7 @@ public sealed class FolderNode : IFolderNode
 
     private IEnumerable<FolderNode> GetChildren(CancellationToken token)
     {
-        var subFolders = this.Folder.GetFolderInfos("*.*", SearchOption.TopDirectoryOnly);
+        var subFolders = this.Folder.GetFolders("*.*", SearchOption.TopDirectoryOnly);
 
         var children = new List<FolderNode>();
 
@@ -177,12 +177,10 @@ public sealed class FolderNode : IFolderNode
             var files = this.Folder.GetFiles("*.*", SearchOption.TopDirectoryOnly);
 
             var fileSize = files.Any()
-                ? files
-                    .Select(file => file.Length)
-                    .Sum()
-                : 0UL;
+                ? files.Sum(file => file.Length)
+                : 0L;
 
-            return new(fileSize);
+            return new((ulong)fileSize);
         }
         catch
         {

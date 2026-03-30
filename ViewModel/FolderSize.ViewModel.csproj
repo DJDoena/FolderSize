@@ -22,7 +22,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="DoenaSoft.AbstractionLayer.WPF" Version="2.0.0" />
+	  <PackageReference Include="DoenaSoft.AbstractionLayer.WPF" Version="3.0.4" />
 	</ItemGroup>
 
 	<ItemGroup>

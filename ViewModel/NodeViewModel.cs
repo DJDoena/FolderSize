@@ -152,7 +152,7 @@ public sealed class NodeViewModel : INotifyPropertyChanged
         {
             var drive = _modelNode.Folder.Drive;
 
-            var percentage = GetPercentage(ownSize, drive.TotalSpace);
+            var percentage = GetPercentage(ownSize, (ulong)drive.TotalSpace);
 
             return percentage;
         }
