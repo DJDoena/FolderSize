@@ -1,23 +1,21 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup Label="Globals">
 		<AssemblyName>FolderSize.ViewModel.Test</AssemblyName>
 		<RootNamespace>DoenaSoft.FolderSize.ViewModel.Test</RootNamespace>
 		<OutputType>Library</OutputType>
-		<TargetFramework>net6.0-windows</TargetFramework>
-		<Platforms>x64</Platforms>
+		<TargetFramework>net10.0-windows</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>disable</Nullable>
 		<DebugType>full</DebugType>
-		<LangVersion>10.0</LangVersion>
+		<LangVersion>latest</LangVersion>
+		<IsTestProject>true</IsTestProject>
 		<Product>Folder Size</Product>
 		<Company>Doena Soft.</Company>
 		<Authors>DJ Doena</Authors>
 		<Copyright>Copyright Doena Soft. © 2024</Copyright>
 		<Version>$([System.DateTime]::Now.ToString("yyyy.MM.dd.HHmm"))</Version>
 		<FileVersion>$([System.DateTime]::Now.ToString("yyyy.MM.dd.HHmm"))</FileVersion>
-		<Configurations>Debug;Release</Configurations>
-		<IsTestProject>true</IsTestProject>
 	</PropertyGroup>
 
   <ItemGroup>

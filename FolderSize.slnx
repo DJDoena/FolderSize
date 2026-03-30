@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/Tests/">
+    <Project Path="Model.Test/FolderSize.Model.Test.csproj" />
+    <Project Path="ViewModel.Test/FolderSize.ViewModel.Test.csproj" />
+  </Folder>
+  <Project Path="Model.Contracts/FolderSize.Model.Contracts.csproj" />
+  <Project Path="Model/FolderSize.Model.csproj" />
+  <Project Path="View/FolderSize.View.csproj" />
+  <Project Path="ViewModel/FolderSize.ViewModel.csproj" />
+</Solution>
